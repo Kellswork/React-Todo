@@ -23,7 +23,7 @@ class App extends React.Component {
     super();
     this.state = {
       todoListArr: tasksArr,
-      todoItem: ""
+      todoItem: "",
     };
   }
   inputHandler = event => {
@@ -36,16 +36,37 @@ class App extends React.Component {
       id: new Date(),
       completed: false
     };
-    this.setState({ todoListArr: this.state.todoListArr.concat(newTask) });
+    this.setState({ todoListArr: this.state.todoListArr.concat(newTask), todoItem: ''});
   };
+
+  isTodoCompleted = (id) => {
+    this.setState({
+      todoListArr:this.state.todoListArr.map(task => {
+        if(task.id === id) {
+           if(task.completed === true) {
+            task.completed = false;
+           } else task.completed = true;
+        }
+        return task;
+      }),
+    })
+  }
+
+  deleteCompletedTasks = () => {
+    this.setState({
+      todoListArr: this.state.todoListArr.filter(task => task.completed === false )
+    })
+  }
 
   render() {
     return (
       <div>
-        <TodoList tasks={this.state.todoListArr} />
+        <TodoList tasks={this.state.todoListArr} taskComplete={this.isTodoCompleted} deleteCompletedTasks={this.deleteCompletedTasks}/>
         <TodoForm
           todoTask={this.inputHandler}
           addNewTask={this.addNewTaskHandler}
+          deleteCompletedTasks={this.deleteCompletedTasks}
+          formValue={this.state.todoItem}
         />
       </div>
     );

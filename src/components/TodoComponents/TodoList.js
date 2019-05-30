@@ -5,9 +5,9 @@ import Todo from './Todo';
 
 
 
-  function TodoList({tasks}) {
+  function TodoList({tasks, taskComplete}) {
      return  tasks.map(task => {
-          return <Todo key={task.id} task={task.task} /> 
+          return <Todo key={task.id} task={task} taskComplete={taskComplete} /> 
       })
   }
 
